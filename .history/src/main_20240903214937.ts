@@ -10,8 +10,7 @@ async function bootstrap() {
 
   // Enable CORS for all origins and all methods
   app.enableCors({
-    // origin: '*', // Allow all origins
-    origin: ['https://property-fe-h8e2.vercel.app', 'http://localhost:3000'], // Replace with your frontend domain or use '*'
+    origin: '*', // Allow all origins
     methods: '*', // Allow all methods
     credentials: true,
   });
