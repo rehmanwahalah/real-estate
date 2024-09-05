@@ -97,4 +97,30 @@ export class PropertyController extends CommonServices {
       );
     }
   }
+
+  /**
+   *
+   * @param query
+   * @param res
+   * @param req
+   */
+  @Get('/detail')
+  async getPropertyDetails(@Query() query, @Res() res, @Req() req) {
+    try {
+      const id = query.id;
+
+      const property =
+        await this.propertyService.propertyRepository.findById(id);
+
+      this.sendResponse(this.messages.Success, property, HttpStatus.OK, res);
+    } catch (error) {
+      console.error('error', error);
+      this.sendResponse(
+        this.messages.Error,
+        null,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        res,
+      );
+    }
+  }
 }
