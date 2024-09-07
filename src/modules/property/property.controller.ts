@@ -107,6 +107,7 @@ export class PropertyController extends CommonServices {
   @Get('/detail')
   async getPropertyDetails(@Query() query, @Res() res, @Req() req) {
     try {
+      // property id
       const id = query.id;
 
       const property =
