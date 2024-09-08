@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema<IUserDocument>(
   {
     name: { type: String },
     username: { type: String },
-    email: { type: String },
+    email: { type: String, unique: true },
     avatar: { type: String },
     isActive: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
