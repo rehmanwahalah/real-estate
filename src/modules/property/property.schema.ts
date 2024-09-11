@@ -10,6 +10,8 @@ export interface IPropertyDocument extends Document {
   features?: object;
   thumbnail_summary?: string;
   listing_url?: string;
+  views?: number; // Track the number of views
+  total_time_spent?: number; // Track total time spent on the property in seconds
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -23,6 +25,8 @@ const PropertySchema = new mongoose.Schema<IPropertyDocument>(
     features: { type: Object },
     listing_url: { type: String },
     imgs: [],
+    views: { type: Number, default: 0 }, // New field to store the number of views
+    total_time_spent: { type: Number, default: 0 }, // New field to store total time spent in seconds
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },
