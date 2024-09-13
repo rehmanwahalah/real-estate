@@ -7,7 +7,7 @@ export interface IUserActivityDocument extends Document {
   // userId: IUserDocument;
   propertyId: IPropertyDocument;
   action: string; // E.g., 'click', 'view', 'time_spent'
-  sessionId: string; // E.g., 'click', 'view', 'time_spent'
+  sessionId: string;
   timestamp: Date;
   duration?: number; // Store time spent in seconds for 'time_spent' action
   searchQuery?: string;
