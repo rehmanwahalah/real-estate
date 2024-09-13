@@ -12,6 +12,7 @@ import {
 import { Response } from 'express';
 import { CommonServices } from '../shared/common.service';
 import { PropertyService } from './property.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Controller('property')
 export class PropertyController extends CommonServices {
@@ -77,8 +78,9 @@ export class PropertyController extends CommonServices {
       const page = Number(query.page);
       const resPerPage = query.resPerPage ? Number(query.resPerPage) : 20;
       const search = query.search || ''; // Default to empty search if not provided
+      let sessionId = null;
 
-      console.log(`search =>`, query);
+      if (!query.sessionId) sessionId = uuidv4();
 
       const listings = await this.propertyService.propertyLisitng(
         page,
@@ -86,7 +88,12 @@ export class PropertyController extends CommonServices {
         search,
       );
 
-      this.sendResponse(this.messages.Success, listings, HttpStatus.OK, res);
+      this.sendResponse(
+        this.messages.Success,
+        { listings, sessionId: sessionId },
+        HttpStatus.OK,
+        res,
+      );
     } catch (error) {
       console.error('error', error);
       this.sendResponse(
