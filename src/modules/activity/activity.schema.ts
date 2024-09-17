@@ -8,6 +8,7 @@ export interface IUserActivityDocument extends Document {
   propertyId: IPropertyDocument;
   action: string; // E.g., 'click', 'view', 'time_spent'
   sessionId: string;
+  id: string;
   timestamp: Date;
   duration?: number; // Store time spent in seconds for 'time_spent' action
   searchQuery?: string;
@@ -27,6 +28,7 @@ const UserActivitySchema = new mongoose.Schema<IUserActivityDocument>(
     },
     action: { type: String, required: true }, // 'click', 'view', 'time_spent'
     sessionId: { type: String, required: true },
+    id: { type: String },
     searchQuery: { type: String },
     timestamp: { type: Date, default: Date.now },
     duration: { type: Number }, // Only applicable for 'time_spent'
