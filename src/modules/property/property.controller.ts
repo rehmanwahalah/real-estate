@@ -75,6 +75,7 @@ export class PropertyController extends CommonServices {
   @Get('/listings')
   async getDashboardActiveUsers(@Query() query, @Res() res, @Req() req) {
     try {
+
       const page = Number(query.page);
       const resPerPage = query.resPerPage ? Number(query.resPerPage) : 20;
       const search = query.search || ''; // Default to empty search if not provided
@@ -82,11 +83,20 @@ export class PropertyController extends CommonServices {
 
       if (!query.sessionId) sessionId = uuidv4();
 
-      const listings = await this.propertyService.propertyLisitng(
-        page,
-        resPerPage,
-        search,
-      );
+      let listings;
+      if (!query.sessionId) {
+        listings = await this.propertyService.propertyLisitng(
+          page,
+          resPerPage,
+          search,
+        );
+      } else {
+        listings = await this.propertyService.propertyLisitngRecommendedSearch(
+          page,
+          resPerPage,
+          query.recommendations,
+        );
+      }
 
       this.sendResponse(
         this.messages.Success,

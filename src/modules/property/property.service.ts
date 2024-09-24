@@ -41,4 +41,50 @@ export class PropertyService extends sharedCrudService {
       per_page: resPerPage,
     };
   }
+
+  /**
+   * It will recieve array of IDs to get the recommended listing
+   * @param page
+   * @param resPerPage
+   * @param search
+   * @returns
+   */
+  async propertyLisitngRecommendedSearch(
+    page: number,
+    resPerPage: number,
+    recommendations: string[],
+  ): Promise<any> {
+    const query = [];
+
+    // Check if recommendations is a string and split it into an array
+    if (typeof recommendations === 'string') {
+      //@ts-ignore
+      recommendations = recommendations.split(',');
+    }
+
+    query.push({ id: { $exists: true } });
+
+    // Modify the query to handle an array of IDs
+    if (recommendations && recommendations.length > 0) {
+      query.push({ id: { $in: recommendations } });
+    }
+
+    const [listings, tLisitngsCount] = await Promise.all([
+      this.propertyRepository
+        .find({ $and: [...query] })
+        .sort({ createdAt: -1 })
+        .skip(resPerPage * (page - 1))
+        .limit(resPerPage)
+        .exec(),
+      this.propertyRepository.countDocuments({ $and: [...query] }).exec(),
+    ]);
+
+    return {
+      listings,
+      current_page: page,
+      pages: Math.ceil(tLisitngsCount / resPerPage),
+      total_listings: tLisitngsCount,
+      per_page: resPerPage,
+    };
+  }
 }
