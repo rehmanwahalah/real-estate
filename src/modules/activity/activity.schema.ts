@@ -4,7 +4,7 @@ import { IUserDocument } from '../user/user.schema';
 import { IPropertyDocument } from '../property/property.schema';
 
 export interface IUserActivityDocument extends Document {
-  // userId: IUserDocument;
+  userId: IUserDocument;
   propertyId: IPropertyDocument;
   action: string; // E.g., 'click', 'view', 'time_spent'
   sessionId: string;
@@ -16,11 +16,11 @@ export interface IUserActivityDocument extends Document {
 
 const UserActivitySchema = new mongoose.Schema<IUserActivityDocument>(
   {
-    // userId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'User',
-    //   required: true,
-    // },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      // required: true,
+    },
     propertyId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'propertie',

@@ -26,14 +26,14 @@ export class ActivityController extends CommonServices {
   }
 
   @Post('create')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async createActivity(@Body() body: any, @Res() res: Response, @Req() req) {
     try {
-      // const payload = {
-      //   ...body,
-      //   userId: req.user.userId,
-      // };
-      const activity = await this.activityService.sharedCreate(body);
+      const payload = {
+        ...body,
+        userId: req.user.userId,
+      };
+      const activity = await this.activityService.sharedCreate(payload);
 
       // update views
       if (body.action == 'view')
